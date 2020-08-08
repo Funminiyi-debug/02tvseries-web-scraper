@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
+  "engines": {
+    "node": "14.4.0"
+  },
   "scripts": {
     "start": "node server.js",
     "client-install": "npm install cd client",
