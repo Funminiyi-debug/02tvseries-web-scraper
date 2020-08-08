@@ -7,6 +7,14 @@ dotenv.config({ path: "./config/config.env" });
 const mainjs = require("./main");
 
 const app = express();
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static("client/build"));
+
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
+  });
+}
+
 const server = http.createServer(app);
 const io = socketio(server);
 
@@ -53,12 +61,5 @@ io.on("connection", socket => {
   socket.on("disconnect", () => console.log(`disconnected`));
 });
 const PORT = process.env.PORT || 1200;
-if (process.env.NODE_ENV === "production") {
-  app.use(express.static("client/build"));
-
-  app.get("*", (req, res) => {
-    res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
-  });
-}
 
 server.listen(PORT, console.log("Server running on port %s", PORT));
